@@ -23,19 +23,3 @@ f. Bottom Navigation Bar
    b. Halaman Gallery Photos : Halaman ini menampilkan Foto dari API, Nama author, Layout gallery menggunakan GridView
 
 4. Teknologi yang Digunakan: Flutter, Dart, REST API, HTTP Package
-5. Struktur Project
-lib/
-│
-├── main.dart
-│
-├── models/
-│   ├── post_model.dart
-│   └── photo_model.dart
-│
-├── services/
-│   ├── post_service.dart
-│   └── photo_service.dart
-│
-└── pages/
-    ├── posts_page.dart
-    └── photos_page.dart
