@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/photo_model.dart';
-import '../services/photo_service.dart';
+import 'package:provider/provider.dart';
+import '../providers/photo_provider.dart';
 
 class PhotosPage extends StatefulWidget {
   const PhotosPage({super.key});
@@ -11,109 +11,99 @@ class PhotosPage extends StatefulWidget {
 
 class _PhotosPageState extends State<PhotosPage> {
 
-  late Future<List<PhotoModel>> futurePhotos;
-
   @override
   void initState() {
     super.initState();
-    futurePhotos = PhotoService.getPhotos();
+
+    Future.microtask(() {
+      Provider.of<PhotoProvider>(
+        context,
+        listen: false,
+      ).fetchPhotos();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return FutureBuilder<List<PhotoModel>>(
-      future: futurePhotos,
+    final provider = Provider.of<PhotoProvider>(context);
 
-      builder: (context, snapshot) {
+    // Loading
+    if (provider.isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
-        if (snapshot.connectionState ==
-            ConnectionState.waiting) {
+    // Error
+    if (provider.errorMessage.isNotEmpty) {
+      return Center(
+        child: Text(provider.errorMessage),
+      );
+    }
 
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    // Success
+    return GridView.builder(
+      padding: const EdgeInsets.all(12),
 
-        else if (snapshot.hasError) {
+      itemCount: provider.photos.length,
 
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        }
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 0.75,
+      ),
 
-        else if (snapshot.hasData) {
+      itemBuilder: (context, index) {
 
-          final photos = snapshot.data!;
+        final photo = provider.photos[index];
 
-          return GridView.builder(
-            padding: const EdgeInsets.all(12),
+        return Card(
+          elevation: 5,
 
-            itemCount: photos.length,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
 
-            gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 0.75,
-            ),
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
 
-            itemBuilder: (context, index) {
+            children: [
 
-              final photo = photos[index];
+              Expanded(
+                child: ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(
+                    top: Radius.circular(18),
+                  ),
 
-              return Card(
-                elevation: 5,
-
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
+                  child: Image.network(
+                    photo.downloadUrl,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
+              ),
 
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.all(10),
 
-                  children: [
+                child: Text(
+                  photo.author,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
 
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.vertical(
-                          top: Radius.circular(18),
-                        ),
-
-                        child: Image.network(
-                          photo.downloadUrl,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-
-                      child: Text(
-                        photo.author,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                  ],
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
                 ),
-              );
-            },
-          );
-        }
-
-        return const Center(
-          child: Text('Tidak ada data'),
+              ),
+            ],
+          ),
         );
       },
     );
