@@ -3,23 +3,53 @@
 
 <img width="476" height="436" alt="Screenshot 2026-05-13 194926" src="https://github.com/user-attachments/assets/fea1994e-21f0-4711-b2de-2c26457346e3" />
 
-Aplikasi Daftar Postingan API & Gallery Photos
-1. Deskripsi Project :
-   Aplikasi ini merupakan aplikasi Flutter sederhana yang menampilkan data dari API secara online.
-   Aplikasi memiliki dua halaman utama yaitu:
-a. Halaman Posts: Menampilkan daftar postingan yang diambil dari API menggunakan HTTP Request.
-b. Halaman Photos: Menampilkan gallery foto beserta nama author/fotografer dari API.
+# Aplikasi Daftar Postingan API & Gallery Photos
 
-2. Aplikasi dibuat menggunakan Flutter dengan konsep:
-a. REST API
-b. HTTP Request
-c. JSON Parsing
-d. Navigation
-e. GridView & ListView
-f. Bottom Navigation Bar
+## 1. Deskripsi Project
+Aplikasi ini merupakan aplikasi Flutter sederhana yang menampilkan data dari API secara online.  
+Aplikasi memiliki dua halaman utama yaitu:
 
-3. Tampilan Aplikasi
-   a. Halaman Daftar Postingan API : Halaman ini menampilkan Nomor postingan, Judul postingan, Isi postingan
-   b. Halaman Gallery Photos : Halaman ini menampilkan Foto dari API, Nama author, Layout gallery menggunakan GridView
+### a. Halaman Posts
+Menampilkan daftar postingan yang diambil dari API menggunakan HTTP Request.
 
-4. Teknologi yang Digunakan: Flutter, Dart, REST API, HTTP Package
+### b. Halaman Photos
+Menampilkan gallery foto beserta nama author/fotografer dari API.
+
+## 2. Aplikasi Dibuat Menggunakan Konsep
+
+- REST API
+- HTTP Request
+- JSON Parsing
+- Navigation
+- GridView & ListView
+- Bottom Navigation Bar
+- State Management Provider
+
+## 3. Tampilan Aplikasi
+
+### a. Halaman Daftar Postingan API
+Halaman ini menampilkan:
+- Nomor postingan
+- Judul postingan
+- Isi postingan
+
+### b. Halaman Gallery Photos
+Halaman ini menampilkan:
+- Foto dari API
+- Nama author/fotografer
+- Layout gallery menggunakan GridView
+
+## 4. Teknologi yang Digunakan
+
+- Flutter
+- Dart
+- REST API
+- HTTP Package
+- Provider (State Management)
+
+## 5. Fitur Tambahan
+
+- Menggunakan Provider untuk mengatur state management aplikasi
+- Data API dipisahkan menggunakan provider agar kode lebih terstruktur
+- Loading indicator saat proses pengambilan data
+- Struktur project lebih rapi dan mudah dikembangkan
